@@ -1,19 +1,22 @@
 import { StyleSheet } from "react-native";
 
 import { Text, View } from "../../components/Themed";
+import { workoutSelectors } from "../../features/workouts/workout.slice";
 import { RootTabScreenProps } from "../../navigation/navigation.types";
+import { useAppSelector } from "../../store";
 
 export const WorkoutsTab = ({
   navigation,
 }: RootTabScreenProps<"WorkoutsTab">) => {
+  const workouts = useAppSelector(workoutSelectors.selectAll);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>TAB TODO</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+      <Text style={styles.title}>Workouts</Text>
+      {workouts.map((workout) => (
+        <View key={workout.id}>
+          <Text>{workout.name}</Text>
+        </View>
+      ))}
     </View>
   );
 };
@@ -21,7 +24,7 @@ export const WorkoutsTab = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
   },
   title: {
