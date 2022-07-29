@@ -20,9 +20,14 @@ import { ExercisesTab } from "../screens/ExercisesTab";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { SettingsTab } from "../screens/SettingsTab";
-import { WorkoutsTab } from "../screens/WokoutsTab";
+import { WorkoutsScreen } from "../screens/Workouts";
+import { WorkoutScreen } from "../screens/Workouts/WorkoutScreen";
 import LinkingConfiguration from "./LinkingConfiguration";
-import { RootStackParamList, RootTabParamList } from "./navigation.types";
+import {
+  RootStackParamList,
+  RootTabParamList,
+  WorkoutsParamList,
+} from "./navigation.types";
 
 export default function Navigation({
   colorScheme,
@@ -73,49 +78,68 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-
   return (
     <BottomTab.Navigator
-      initialRouteName="WorkoutsTab"
+      initialRouteName="Workouts"
       screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: Colors[colorScheme].background,
+          borderTopWidth: 0,
+        },
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}
     >
       <BottomTab.Screen
-        name="WorkoutsTab"
-        component={WorkoutsTab}
+        name="Workouts"
+        component={WorkoutsNavigator}
         options={{
-          headerTitle: "",
-          headerTransparent: true,
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="clipboard" color={color} />
-          ),
-          tabBarLabel: "Workouts",
+          tabBarIcon: ({ color }) => <TabBarIcon name="box" color={color} />,
         }}
       />
       <BottomTab.Screen
-        name="ExercisesTab"
+        name="Exercises"
         component={ExercisesTab}
         options={{
-          headerTitle: "",
           headerTransparent: true,
           tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
-          tabBarLabel: "Exercises",
         }}
       />
       <BottomTab.Screen
-        name="SettingsTab"
+        name="Settings"
         component={SettingsTab}
         options={{
-          headerTitle: "",
           headerTransparent: true,
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="settings" color={color} />
           ),
-          tabBarLabel: "Settings",
         }}
       />
     </BottomTab.Navigator>
+  );
+}
+
+const WorkoutsStack = createNativeStackNavigator<WorkoutsParamList>();
+function WorkoutsNavigator() {
+  const colorScheme = useColorScheme();
+  return (
+    <WorkoutsStack.Navigator>
+      <WorkoutsStack.Screen
+        name="WorkoutsScreen"
+        component={WorkoutsScreen}
+        options={{
+          headerLargeTitle: true,
+          headerLargeTitleShadowVisible: false,
+          headerLargeStyle: { backgroundColor: Colors[colorScheme].background },
+          headerTitle: "Workouts",
+        }}
+      />
+      <WorkoutsStack.Screen
+        name="WorkoutScreen"
+        component={WorkoutScreen}
+        options={{ headerTitle: "" }}
+      />
+    </WorkoutsStack.Navigator>
   );
 }
 
