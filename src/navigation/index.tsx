@@ -101,7 +101,6 @@ function BottomTabNavigator() {
         name="Exercises"
         component={ExercisesTab}
         options={{
-          headerTransparent: true,
           tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
         }}
       />
@@ -109,7 +108,6 @@ function BottomTabNavigator() {
         name="Settings"
         component={SettingsTab}
         options={{
-          headerTransparent: true,
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="settings" color={color} />
           ),
@@ -123,7 +121,12 @@ const WorkoutsStack = createNativeStackNavigator<WorkoutsParamList>();
 function WorkoutsNavigator() {
   const colorScheme = useColorScheme();
   return (
-    <WorkoutsStack.Navigator>
+    <WorkoutsStack.Navigator
+      screenOptions={{
+        headerTitleStyle: { color: Colors[colorScheme].text },
+        headerTintColor: Colors[colorScheme].tint,
+      }}
+    >
       <WorkoutsStack.Screen
         name="WorkoutsScreen"
         component={WorkoutsScreen}
@@ -137,7 +140,9 @@ function WorkoutsNavigator() {
       <WorkoutsStack.Screen
         name="WorkoutScreen"
         component={WorkoutScreen}
-        options={{ headerTitle: "" }}
+        options={{
+          headerTitle: "",
+        }}
       />
     </WorkoutsStack.Navigator>
   );
