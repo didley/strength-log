@@ -7,7 +7,7 @@ type Workout = {
 
 const initialState = {
   dj49849j32: { id: "dj49849j32", name: "PPL" },
-  dj498ddgg: { id: "dj4984ddgg", name: "Full Body" },
+  dj498dg: { id: "dj4984dg", name: "Full Body" },
 };
 
 const workoutAdaptor = createEntityAdapter<Workout>();
@@ -23,14 +23,14 @@ export const workoutSlice = createSlice({
   name: "workout",
   initialState: initialisedState,
   reducers: {
-    add: {
+    create: {
       prepare: (payload: Omit<Workout, "id">) => ({
         payload: { ...payload, id: nanoid() },
       }),
       reducer: workoutAdaptor.addOne,
     },
     update: workoutAdaptor.updateOne,
-    remove: workoutAdaptor.removeOne,
+    delete: workoutAdaptor.removeOne,
   },
 });
 type WorkoutSlice = {
