@@ -21,7 +21,9 @@ export const WorkoutsScreen = ({
   const workouts = useAppSelector(workoutSelectors.selectAll);
 
   const handleCreateWorkout = () => {
-    const { payload } = dispatch(workoutActions.create({ name: "" }));
+    const { payload } = dispatch(
+      workoutActions.create({ name: "", workoutExerciseIds: [] })
+    );
     navigation.navigate("WorkoutScreen", { id: payload.id });
   };
 
