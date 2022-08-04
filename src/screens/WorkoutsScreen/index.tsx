@@ -21,7 +21,9 @@ export const WorkoutsScreen = ({
   const workouts = useAppSelector(workoutSelectors.selectAll);
 
   const handleCreateWorkout = () => {
-    const { payload } = dispatch(workoutActions.create({ name: "" }));
+    const { payload } = dispatch(
+      workoutActions.create({ name: "", workoutExerciseIds: [] })
+    );
     navigation.navigate("WorkoutScreen", { id: payload.id });
   };
 
@@ -34,8 +36,6 @@ export const WorkoutsScreen = ({
           {workouts.map((workout) => (
             <Pressable
               key={workout.id}
-              // lightColor="white"
-              // darkColor="#303030"
               style={styles.workout}
               onPress={() =>
                 navigation.navigate("WorkoutScreen", { id: workout.id })

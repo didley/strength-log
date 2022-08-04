@@ -3,11 +3,16 @@ import { createEntityAdapter, createSlice, nanoid } from "@reduxjs/toolkit";
 type Workout = {
   id: string;
   name: string;
+  workoutExerciseIds: string[];
 };
 
-const initialState = {
-  dj49849j32: { id: "dj49849j32", name: "PPL" },
-  dj498dg: { id: "dj4984dg", name: "Full Body" },
+const initialState: { [id: string]: Workout } = {
+  dj49849j32: {
+    id: "dj49849j32",
+    name: "PPL",
+    workoutExerciseIds: ["did93jd9sh39dh3hr", "t93fj5do6s4i6sph3hr"],
+  },
+  dj498dg: { id: "dj4984dg", name: "Full Body", workoutExerciseIds: [] },
 };
 
 const workoutAdaptor = createEntityAdapter<Workout>();
