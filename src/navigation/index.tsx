@@ -20,8 +20,8 @@ import { ExercisesTab } from "../screens/ExercisesTab";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { SettingsTab } from "../screens/SettingsTab";
-import { WorkoutsScreen } from "../screens/Workouts";
-import { WorkoutScreen } from "../screens/Workouts/WorkoutScreen";
+import { WorkoutsScreen } from "../screens/WorkoutsScreen";
+import { WorkoutScreen } from "../screens/WorkoutsScreen/WorkoutScreen";
 import LinkingConfiguration from "./LinkingConfiguration";
 import {
   RootStackParamList,

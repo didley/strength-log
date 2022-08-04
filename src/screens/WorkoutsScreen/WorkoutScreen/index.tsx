@@ -1,12 +1,14 @@
 import { SafeAreaView, StyleSheet } from "react-native";
 
 import { ScrollView, TextInput, View } from "../../../components/Themed";
+import { workoutExerciseSelectors } from "../../../features/workoutExercises/workoutExercise.slice";
 import {
   workoutActions,
   workoutSelectors,
 } from "../../../features/workouts/workout.slice";
 import { WorkoutsScreenProps } from "../../../navigation/navigation.types";
 import { useAppDispatch, useAppSelector } from "../../../store";
+import { WorkoutExercise } from "./WorkoutExercise";
 
 export const WorkoutScreen = ({
   navigation,
@@ -25,6 +27,8 @@ export const WorkoutScreen = ({
     );
   };
 
+  const exercises = useAppSelector(workoutExerciseSelectors.selectAll);
+
   return workout ? (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1 }}>
@@ -36,6 +40,10 @@ export const WorkoutScreen = ({
           >
             {workout.name}
           </TextInput>
+          {exercises &&
+            exercises.map((exercise) => (
+              <WorkoutExercise key={exercise.id} exercise={exercise} />
+            ))}
         </View>
       </ScrollView>
     </SafeAreaView>

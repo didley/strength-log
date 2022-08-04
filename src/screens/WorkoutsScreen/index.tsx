@@ -34,8 +34,6 @@ export const WorkoutsScreen = ({
           {workouts.map((workout) => (
             <Pressable
               key={workout.id}
-              // lightColor="white"
-              // darkColor="#303030"
               style={styles.workout}
               onPress={() =>
                 navigation.navigate("WorkoutScreen", { id: workout.id })
