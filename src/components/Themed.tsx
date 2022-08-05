@@ -11,12 +11,12 @@ import {
   View as DefaultView,
 } from "react-native";
 
-import Colors from "../constants/Colors";
+import Colors, { ThemeColorName } from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 
 export function useThemeColor(
   props: { light?: string; dark?: string },
-  colorName: keyof typeof Colors.light & keyof typeof Colors.dark
+  colorName: ThemeColorName | "transparent"
 ) {
   const theme = useColorScheme();
   const colorFromProps = props[theme];
@@ -24,6 +24,7 @@ export function useThemeColor(
   if (colorFromProps) {
     return colorFromProps;
   } else {
+    if (colorName === "transparent") return colorName;
     return Colors[theme][colorName];
   }
 }
@@ -31,6 +32,7 @@ export function useThemeColor(
 type ThemeProps = {
   lightColor?: string;
   darkColor?: string;
+  themeColor?: ThemeColorName;
 };
 
 export type TextProps = ThemeProps & DefaultText["props"];
@@ -47,34 +49,40 @@ export type ButtonProps = {
 };
 
 export function Text(props: TextProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
+  const { style, lightColor, darkColor, themeColor, ...otherProps } = props;
+  const color = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    themeColor ? themeColor : "text"
+  );
 
   return <DefaultText style={[{ color }, style]} {...otherProps} />;
 }
 
 export function TextInput(props: TextInputProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
+  const { style, lightColor, darkColor, themeColor, ...otherProps } = props;
+  const color = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    themeColor ? themeColor : "text"
+  );
 
   return <DefaultTextInput style={[{ color }, style]} {...otherProps} />;
 }
 
 export function View(props: ViewProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
+  const { style, lightColor, darkColor, themeColor, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
-    "background"
+    themeColor ? themeColor : "transparent"
   );
 
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
 export function Pressable(props: PressableProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
+  const { style, lightColor, darkColor, themeColor, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
-    "off"
+    themeColor ? themeColor : "off"
   );
 
   return (
@@ -83,10 +91,10 @@ export function Pressable(props: PressableProps) {
 }
 
 export function ScrollView(props: ScrollViewProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
+  const { style, lightColor, darkColor, themeColor, ...otherProps } = props;
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
-    "background"
+    themeColor ? themeColor : "background"
   );
 
   return (
@@ -96,16 +104,16 @@ export function ScrollView(props: ScrollViewProps) {
 
 export function Button(props: ButtonProps) {
   const { onPress, text, bold = false, btnProps, textProps } = props;
-  const tintColor = useThemeColor(
+  const textColor = useThemeColor(
     { light: textProps?.lightColor, dark: textProps?.darkColor },
-    "tint"
+    textProps?.themeColor ? textProps.themeColor : "tint"
   );
 
   return (
     <DefaultPressable onPress={onPress} {...btnProps}>
       <DefaultText
         style={{
-          color: tintColor,
+          color: textColor,
           fontWeight: bold ? "bold" : "400",
           margin: 8,
           fontSize: 18,

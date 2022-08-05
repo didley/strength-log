@@ -29,7 +29,7 @@ export const WorkoutsScreen = ({
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView>
         <View style={styles.container}>
           <Button text="Create" onPress={handleCreateWorkout} />
 
@@ -63,10 +63,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 20,
     borderRadius: 20,
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
 });
