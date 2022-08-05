@@ -19,6 +19,7 @@ export const WorkoutScreen = ({
   const workout = useAppSelector((state) =>
     workoutSelectors.selectById(state, params.id)
   );
+  const exercises = useAppSelector(workoutExerciseSelectors.selectAll);
   if (!workout) return null;
 
   const handleNameChange = (text: string) => {
@@ -27,11 +28,9 @@ export const WorkoutScreen = ({
     );
   };
 
-  const exercises = useAppSelector(workoutExerciseSelectors.selectAll);
-
   return workout ? (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView>
         <View style={styles.container}>
           <TextInput
             placeholder="Workout Name"
@@ -40,9 +39,9 @@ export const WorkoutScreen = ({
           >
             {workout.name}
           </TextInput>
-          {exercises &&
+          {exercises.length &&
             exercises.map((exercise) => (
-              <WorkoutExercise key={exercise.id} exercise={exercise} />
+              <WorkoutExercise key={exercise.id} workoutExercise={exercise} />
             ))}
         </View>
       </ScrollView>
@@ -52,19 +51,12 @@ export const WorkoutScreen = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "center",
+    alignItems: "stretch",
     paddingTop: 20,
     paddingHorizontal: 30,
   },
   title: {
     fontSize: 40,
     fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
 });
