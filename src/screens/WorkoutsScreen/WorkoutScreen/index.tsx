@@ -19,7 +19,11 @@ export const WorkoutScreen = ({
   const workout = useAppSelector((state) =>
     workoutSelectors.selectById(state, params.id)
   );
-  const exercises = useAppSelector(workoutExerciseSelectors.selectAll);
+  const exercises = useAppSelector(
+    (state) =>
+      workout &&
+      workoutExerciseSelectors.selectByIds(state, workout?.workoutExerciseIds)
+  );
   if (!workout) return null;
 
   const handleNameChange = (text: string) => {
@@ -28,7 +32,7 @@ export const WorkoutScreen = ({
     );
   };
 
-  return workout ? (
+  return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <View style={styles.container}>
@@ -39,14 +43,21 @@ export const WorkoutScreen = ({
           >
             {workout.name}
           </TextInput>
-          {exercises.length &&
-            exercises.map((exercise) => (
-              <WorkoutExercise key={exercise.id} workoutExercise={exercise} />
-            ))}
+          {exercises
+            ? exercises.map(
+                (exercise) =>
+                  exercise && (
+                    <WorkoutExercise
+                      key={exercise.id}
+                      workoutExercise={exercise}
+                    />
+                  )
+              )
+            : null}
         </View>
       </ScrollView>
     </SafeAreaView>
-  ) : null;
+  );
 };
 
 const styles = StyleSheet.create({

@@ -16,7 +16,7 @@ import { ColorSchemeName } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import { ExercisesTab } from "../screens/ExercisesTab";
+import { ExercisesScreen } from "../screens/ExercisesScreen";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { SettingsTab } from "../screens/SettingsTab";
@@ -24,6 +24,7 @@ import { WorkoutsScreen } from "../screens/WorkoutsScreen";
 import { WorkoutScreen } from "../screens/WorkoutsScreen/WorkoutScreen";
 import LinkingConfiguration from "./LinkingConfiguration";
 import {
+  ExercisesParamList,
   RootStackParamList,
   RootTabParamList,
   WorkoutsParamList,
@@ -99,7 +100,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Exercises"
-        component={ExercisesTab}
+        component={ExercisesNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
         }}
@@ -145,6 +146,25 @@ function WorkoutsNavigator() {
         }}
       />
     </WorkoutsStack.Navigator>
+  );
+}
+
+const ExercisesStack = createNativeStackNavigator<ExercisesParamList>();
+function ExercisesNavigator() {
+  const colorScheme = useColorScheme();
+  return (
+    <ExercisesStack.Navigator>
+      <ExercisesStack.Screen
+        name="ExercisesScreen"
+        component={ExercisesScreen}
+        options={{
+          headerLargeTitle: true,
+          headerLargeTitleShadowVisible: false,
+          headerLargeStyle: { backgroundColor: Colors[colorScheme].background },
+          headerTitle: "Exercises",
+        }}
+      />
+    </ExercisesStack.Navigator>
   );
 }
 

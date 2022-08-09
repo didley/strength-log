@@ -1,4 +1,11 @@
-import { createEntityAdapter, createSlice, nanoid } from "@reduxjs/toolkit";
+import {
+  createEntityAdapter,
+  createSlice,
+  EntityId,
+  nanoid,
+} from "@reduxjs/toolkit";
+
+import { RootState } from "../../store";
 
 type Workout = {
   id: string;
@@ -25,7 +32,7 @@ const initialisedState = workoutAdaptor.upsertMany(
 );
 
 export const workoutSlice = createSlice({
-  name: "workout",
+  name: "workouts",
   initialState: initialisedState,
   reducers: {
     create: {
@@ -44,6 +51,9 @@ type WorkoutSlice = {
 
 export const workoutActions = workoutSlice.actions;
 
-export const workoutSelectors = workoutAdaptor.getSelectors<WorkoutSlice>(
+const adaptorSelectors = workoutAdaptor.getSelectors<WorkoutSlice>(
   (state) => state[workoutSlice.name]
 );
+const selectByIds = (state: RootState, ids: EntityId[]) =>
+  ids.map((id) => adaptorSelectors.selectById(state, id));
+export const workoutSelectors = { ...adaptorSelectors, selectByIds };
