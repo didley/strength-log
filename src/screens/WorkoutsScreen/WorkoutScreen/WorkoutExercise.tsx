@@ -17,7 +17,10 @@ export const WorkoutExercise = ({ workoutExercise }: Props) => {
       <Text style={{ fontSize: 25, fontWeight: "bold" }}>
         {exerciseDetails?.name}
       </Text>
-      <Text>{exerciseDetails?.primaryMuscle}</Text>
+      <Text style={{ color: "gray" }}>
+        {exerciseDetails?.primaryMuscle}
+        {exerciseDetails?.secondaryMuscles.map((el) => ", " + el)}
+      </Text>
       <View style={styles.setsContainer} themeColor="off">
         <View style={styles.set}>
           <View />
